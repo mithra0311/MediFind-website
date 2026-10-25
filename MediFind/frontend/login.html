@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — MediFind</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">MediFind</a>
+      <div class="nav-links">
+        <a href="index.html">Back to Search</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="max-width: 480px; margin-top: 4rem;">
+    <div class="search-card">
+      <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center;">Sign In to MediFind</h2>
+      <p style="color: #64748b; font-size: 0.9rem; text-align: center; margin-bottom: 1.5rem;">Access search history and authorized administrative operations</p>
+
+      <form id="login-form">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required placeholder="mithra.admin@medifind.example" value="mithra.admin@medifind.example">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="••••••••" value="Admin@1234">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Sign In</button>
+      </form>
+
+      <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.85rem; color: #64748b; text-align: center;">
+        <p><strong>Demo Credentials:</strong></p>
+        <p>Admin (Mithra): <code>mithra.admin@medifind.example</code> / <code>Admin@1234</code></p>
+        <p>User (Priya): <code>priya.demo@medifind.example</code> / <code>User@1234</code></p>
+        <div style="margin-top: 1rem;">
+          Don't have an account? <a href="register.html" style="color: var(--primary); font-weight: 700;">Sign up</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await MediFindAPI.login(email, password);
+        localStorage.setItem('medifind_token', res.token);
+        localStorage.setItem('medifind_user', JSON.stringify(res.user));
+        alert('Welcome back, ' + res.user.name + '!');
+        if (res.user.role === 'ADMIN') {
+          window.location.href = 'admin.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      } catch (err) {
+        alert(err.message || 'Login failed. Please check your credentials.');
+      }
+    });
+  </script>
+</body>
+</html>

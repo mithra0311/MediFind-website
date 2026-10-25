@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medifind Admin Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">Medifind Admin Dashboard</a>
+      <div class="nav-links">
+        <a href="index.html">Live Search</a>
+        <a href="admin.html" class="active">Management</a>
+        <button onclick="logout()" class="btn btn-outline" style="font-size:0.85rem; padding:0.35rem 0.75rem;">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h1 style="font-size: 1.8rem; font-weight: 800;">Medifind Admin Dashboard</h1>
+        <p style="color: #64748b;">Manage medicines, pharmacies, and stock availability across Chennai localities</p>
+      </div>
+    </div>
+
+    <!-- Management Tabs -->
+    <div style="display:flex; gap:0.5rem; margin-bottom: 1.5rem; border-bottom:1px solid var(--border); padding-bottom: 0.5rem;">
+      <button class="btn btn-primary" id="tab-inventory-btn" onclick="showTab('inventory')">Inventory & Stock</button>
+      <button class="btn btn-outline" id="tab-medicines-btn" onclick="showTab('medicines')">Add Medicine</button>
+      <button class="btn btn-outline" id="tab-pharmacies-btn" onclick="showTab('pharmacies')">Add Pharmacy</button>
+      <button class="btn btn-outline" id="tab-import-btn" onclick="showTab('import')">CSV Bulk Import</button>
+    </div>
+
+    <!-- TAB 1: INVENTORY MANAGEMENT -->
+    <div id="tab-inventory" class="search-card">
+      <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:1rem;">Update Pharmacy Stock Status</h3>
+      <form id="inventory-form">
+        <div class="search-row" style="grid-template-columns: 1fr 1fr 1fr 1fr auto;">
+          <div class="form-group">
+            <label>Select Pharmacy</label>
+            <select id="inv-pharmacy-select" required></select>
+          </div>
+
+          <div class="form-group">
+            <label>Select Medicine</label>
+            <select id="inv-medicine-select" required></select>
+          </div>
+
+          <div class="form-group">
+            <label>Availability Status</label>
+            <select id="inv-status">
+              <option value="AVAILABLE">AVAILABLE (In Stock)</option>
+              <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
+              <option value="STOCK_STATUS_UNKNOWN">STOCK_STATUS_UNKNOWN</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Quantity (Units)</label>
+            <input type="number" id="inv-qty" placeholder="Qty" value="25" min="0">
+          </div>
+
+          <div>
+            <button type="submit" class="btn btn-primary">Update Stock</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- TAB 2: ADD MEDICINE -->
+    <div id="tab-medicines" class="search-card" style="display:none;">
+      <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:1rem;">Add New Medicine to Catalogue</h3>
+      <form id="add-medicine-form">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+          <div class="form-group">
+            <label>Generic Name</label>
+            <input type="text" id="med-generic" required placeholder="e.g. Ciprofloxacin">
+          </div>
+          <div class="form-group">
+            <label>Brand Name</label>
+            <input type="text" id="med-brand" required placeholder="e.g. Ciplox 500">
+          </div>
+          <div class="form-group">
+            <label>Strength</label>
+            <input type="text" id="med-strength" required placeholder="e.g. 500 mg">
+          </div>
+          <div class="form-group">
+            <label>Dosage Form</label>
+            <select id="med-form">
+              <option value="Tablet">Tablet</option>
+              <option value="Capsule">Capsule</option>
+              <option value="Syrup">Syrup</option>
+              <option value="Inhaler">Inhaler</option>
+              <option value="Sachet">Sachet</option>
+              <option value="Injection">Injection</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Therapeutic Category</label>
+            <input type="text" id="med-cat" required placeholder="e.g. Fluoroquinolone Antibiotic">
+          </div>
+          <div class="form-group">
+            <label>Prescription Requirement</label>
+            <select id="med-rx">
+              <option value="true">Prescription Required (Schedule H)</option>
+              <option value="false">Over The Counter (OTC)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Description & Indications</label>
+          <textarea id="med-desc" rows="2" placeholder="Brief clinical description and indications..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save to Catalogue</button>
+      </form>
+    </div>
+
+    <!-- TAB 3: ADD PHARMACY -->
+    <div id="tab-pharmacies" class="search-card" style="display:none;">
+      <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:1rem;">Register Pharmacy Location</h3>
+      <form id="add-pharmacy-form">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+          <div class="form-group">
+            <label>Pharmacy Name</label>
+            <input type="text" id="pharm-name" required placeholder="e.g. Sri Krishna Medicals">
+          </div>
+          <div class="form-group">
+            <label>Drug License Number</label>
+            <input type="text" id="pharm-license" placeholder="e.g. TN-CHE-2026-X8891">
+          </div>
+          <div class="form-group">
+            <label>Address Line</label>
+            <input type="text" id="pharm-address" required placeholder="e.g. No. 45, Station Road">
+          </div>
+          <div class="form-group">
+            <label>Locality & City</label>
+            <input type="text" id="pharm-locality" required placeholder="e.g. Chromepet, Chennai">
+          </div>
+          <div class="form-group">
+            <label>Latitude (e.g. 12.9516)</label>
+            <input type="number" step="0.0001" id="pharm-lat" required value="12.9516">
+          </div>
+          <div class="form-group">
+            <label>Longitude (e.g. 80.1462)</label>
+            <input type="number" step="0.0001" id="pharm-lng" required value="80.1462">
+          </div>
+          <div class="form-group">
+            <label>Contact Phone</label>
+            <input type="text" id="pharm-phone" required placeholder="+91 44 2200 1234">
+          </div>
+          <div class="form-group">
+            <label>Operating Hours</label>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <input type="text" id="pharm-hours" value="08:00 AM - 10:00 PM">
+              <label style="font-size:0.85rem; display:flex; align-items:center; gap:0.3rem;">
+                <input type="checkbox" id="pharm-24h"> 24x7
+              </label>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Register Pharmacy</button>
+      </form>
+    </div>
+
+    <!-- TAB 4: CSV BULK IMPORT -->
+    <div id="tab-import" class="search-card" style="display:none;">
+      <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:0.5rem;">Batch CSV Dataset Import</h3>
+      <p style="color:#64748b; font-size:0.9rem; margin-bottom:1rem;">
+        Paste comma-separated rows to import multiple medicines. Format:<br>
+        <code>genericName,brandName,dosageForm,strength,category,description,prescriptionRequired</code>
+      </p>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <textarea id="csv-input" rows="5" placeholder="Paracetamol,Crocin Advance,Tablet,500 mg,Analgesic,Fast action pain relief,false&#10;Amoxicillin,Mox 500,Capsule,500 mg,Antibiotic,Broad spectrum antibiotic,true"></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="importCsv()">Import Records</button>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script>
+    function showTab(name) {
+      ['inventory', 'medicines', 'pharmacies', 'import'].forEach(t => {
+        document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+        const btn = document.getElementById('tab-' + t + '-btn');
+        if (btn) {
+          btn.className = t === name ? 'btn btn-primary' : 'btn btn-outline';
+        }
+      });
+    }
+
+    async function loadSelects() {
+      try {
+        const pharmRes = await MediFindAPI.getPharmacies();
+        const medRes = await MediFindAPI.getMedicines();
+
+        const pSel = document.getElementById('inv-pharmacy-select');
+        const mSel = document.getElementById('inv-medicine-select');
+
+        if (pSel && pharmRes.pharmacies) {
+          pSel.innerHTML = pharmRes.pharmacies.map(p => `<option value="${p.id}">${escapeHtml(p.name)} (${p.locality})</option>`).join('');
+        }
+        if (mSel && medRes.medicines) {
+          mSel.innerHTML = medRes.medicines.map(m => `<option value="${m.id}">${escapeHtml(m.brandName)} - ${escapeHtml(m.genericName)} (${m.strength})</option>`).join('');
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    document.getElementById('inventory-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pharmacyId = document.getElementById('inv-pharmacy-select').value;
+      const medicineId = document.getElementById('inv-medicine-select').value;
+      const availabilityStatus = document.getElementById('inv-status').value;
+      const quantity = parseInt(document.getElementById('inv-qty').value || '0', 10);
+      const unitPrice = 0;
+
+      try {
+        await MediFindAPI.upsertInventory({ pharmacyId, medicineId, availabilityStatus, quantity, unitPrice });
+        alert('Inventory stock updated successfully!');
+      } catch (err) {
+        alert(err.message || 'Failed to update stock');
+      }
+    });
+
+    document.getElementById('add-medicine-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const genericName = document.getElementById('med-generic').value.trim();
+      const brandName = document.getElementById('med-brand').value.trim();
+      const strength = document.getElementById('med-strength').value.trim();
+      const dosageForm = document.getElementById('med-form').value;
+      const category = document.getElementById('med-cat').value.trim();
+      const prescriptionRequired = document.getElementById('med-rx').value === 'true';
+      const description = document.getElementById('med-desc').value.trim();
+
+      try {
+        await MediFindAPI.createMedicine({ genericName, brandName, strength, dosageForm, category, prescriptionRequired, description });
+        alert(`Medicine "${brandName}" added to catalogue successfully!`);
+        document.getElementById('add-medicine-form').reset();
+        loadSelects();
+      } catch (err) {
+        alert(err.message || 'Failed to save medicine');
+      }
+    });
+
+    document.getElementById('add-pharmacy-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('pharm-name').value.trim();
+      const licenseNumber = document.getElementById('pharm-license').value.trim();
+      const addressLine = document.getElementById('pharm-address').value.trim();
+      const locality = document.getElementById('pharm-locality').value.trim();
+      const latitude = parseFloat(document.getElementById('pharm-lat').value);
+      const longitude = parseFloat(document.getElementById('pharm-lng').value);
+      const contactPhone = document.getElementById('pharm-phone').value.trim();
+      const is24Hours = document.getElementById('pharm-24h').checked;
+
+      try {
+        await MediFindAPI.createPharmacy({ name, licenseNumber, addressLine, locality, latitude, longitude, contactPhone, is24Hours });
+        alert(`Pharmacy "${name}" registered successfully!`);
+        document.getElementById('add-pharmacy-form').reset();
+        loadSelects();
+      } catch (err) {
+        alert(err.message || 'Failed to register pharmacy');
+      }
+    });
+
+    async function importCsv() {
+      const text = document.getElementById('csv-input').value.trim();
+      if (!text) {
+        alert('Please enter CSV data.');
+        return;
+      }
+      const fullCsv = "genericName,brandName,dosageForm,strength,category,description,prescriptionRequired\n" + text;
+      try {
+        const res = await fetch('/api/admin/import-medicines', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ csvData: fullCsv })
+        });
+        const d = await res.json();
+        alert(`Imported ${d.imported} medicines into catalogue!`);
+        document.getElementById('csv-input').value = '';
+        loadSelects();
+      } catch (e) {
+        alert('Import failed.');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('medifind_token');
+      localStorage.removeItem('medifind_user');
+      window.location.href = 'index.html';
+    }
+
+    function escapeHtml(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    window.addEventListener('DOMContentLoaded', loadSelects);
+  </script>
+</body>
+</html>

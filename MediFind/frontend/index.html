@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediFind — Medicine Availability & Nearby Pharmacy Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+        <span>MediFind</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Search</a>
+        <a href="admin.html">Admin Dashboard</a>
+        <div id="user-nav" style="display:flex; gap:0.5rem; align-items:center;">
+          <a href="login.html" class="btn btn-outline" style="font-size:0.85rem; padding:0.4rem 0.8rem;">Login</a>
+          <a href="register.html" class="btn btn-primary" style="font-size:0.85rem; padding:0.4rem 0.8rem;">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Banner -->
+    <section class="hero-box">
+      <h1>Find Your Medicine. Find a Nearby Pharmacy.</h1>
+      <p>
+        Search for medicines, check stock availability, and discover nearby pharmacies before you travel.
+      </p>
+      <div id="location-status" style="display:inline-block; background:rgba(255,255,255,0.15); padding:0.35rem 0.85rem; border-radius:9999px; font-size:0.85rem; font-weight:600;">
+        📍 Selected Location: Chromepet GST Road (Near MIT Bridge)
+      </div>
+    </section>
+
+    <!-- Search & Location Filter Card -->
+    <section class="search-card">
+      <div class="search-row">
+        <div class="form-group">
+          <label for="medicine-input">Search Medicine (Generic or Brand Name)</label>
+          <input type="text" id="medicine-input" placeholder="e.g. Dolo 650, Augmentin, Paracetamol, Glycomet..." value="Dolo">
+        </div>
+
+        <div class="form-group">
+          <label for="locality-select">Select Demonstration Locality</label>
+          <select id="locality-select">
+            <option value="chromepet">Chromepet GST Road</option>
+            <option value="pallavaram">Pallavaram GST Road</option>
+            <option value="radhanagar">Radha Nagar</option>
+            <option value="hastinapuram">Hasthinapuram Main Bus Stand</option>
+            <option value="sithalapakkam">Sithalapakkam Mambakkam Main Rd</option>
+            <option value="keelkattalai">Keelkattalai Bus Terminus</option>
+            <option value="madipakkam">Madipakkam Koot Road</option>
+            <option value="velachery">Velachery Bypass Road</option>
+            <option value="medavakkam">Medavakkam Junction</option>
+            <option value="tambaram">Tambaram West</option>
+            <option value="nanmangalam">Nanmangalam Velachery Main Rd</option>
+            <option value="kovilambakkam">Kovilambakkam 200 Feet Rd</option>
+            <option value="pallikaranai">Pallikaranai High Road</option>
+            <option value="selaiyur">Selaiyur Velachery Main Rd</option>
+            <option value="east-tambaram">East Tambaram MCC</option>
+            <option value="camp-road">Camp Road Junction</option>
+            <option value="zamin-pallavaram">Zamin Pallavaram Dharga Rd</option>
+            <option value="sembakkam">Sembakkam Bus Stop</option>
+            <option value="perumbakkam">Perumbakkam Global Hospital</option>
+            <option value="sholinganallur">Sholinganallur OMR Signal</option>
+          </select>
+        </div>
+
+
+        <div class="form-group">
+          <label for="radius-select">Search Radius</label>
+          <select id="radius-select">
+            <option value="3">Within 3 km</option>
+            <option value="5" selected>Within 5 km</option>
+            <option value="10">Within 10 km</option>
+          </select>
+        </div>
+
+        <div style="display:flex; gap:0.5rem;">
+          <button id="gps-btn" class="btn btn-outline" title="Use Browser Geolocation" type="button">
+            📍 Use GPS
+          </button>
+          <button id="search-btn" class="btn btn-primary" type="button">
+            Search Stock
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Search Categories -->
+      <div style="margin-top:1.25rem; display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+        <span style="font-size:0.82rem; font-weight:700; color:#64748b;">Quick Search:</span>
+        <button class="btn btn-outline" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="document.getElementById('medicine-input').value='Dolo 650'; performSearch();">Dolo 650</button>
+        <button class="btn btn-outline" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="document.getElementById('medicine-input').value='Augmentin'; performSearch();">Augmentin 625</button>
+        <button class="btn btn-outline" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="document.getElementById('medicine-input').value='Azithral'; performSearch();">Azithral 500</button>
+        <button class="btn btn-outline" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="document.getElementById('medicine-input').value='Glycomet'; performSearch();">Glycomet 500</button>
+        <button class="btn btn-outline" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="document.getElementById('medicine-input').value='Pan 40'; performSearch();">Pan 40</button>
+        <button class="btn btn-outline" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="document.getElementById('medicine-input').value='Asthalin'; performSearch();">Asthalin Inhaler</button>
+      </div>
+    </section>
+
+    <!-- Loading Indicator -->
+    <div id="loading-spinner" style="display:none; text-align:center; padding: 2rem;">
+      <div style="font-weight:700; color:var(--primary); font-size:1.1rem;">Scanning medicine catalogue and nearby pharmacy inventory...</div>
+    </div>
+
+    <!-- Search Results Container -->
+    <div id="results-container"></div>
+  </main>
+
+  <footer>
+    <p><strong>MediFind</strong> — College Team Project Demonstration</p>
+    <p style="margin-top:0.3rem;">Demonstration records centered around Chromepet, Chennai. Powered by Spring Boot REST API & MySQL Database.</p>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Initial auto-search on page load for demonstration
+    window.addEventListener('DOMContentLoaded', () => {
+      performSearch();
+    });
+  </script>
+</body>
+</html>
