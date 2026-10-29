@@ -115,7 +115,15 @@ By making pharmacy information easier to access, MediFind aims to improve conven
 
 **MediFind – Find Your Medicine. Find a Nearby Pharmacy.** 💊📍
 
----
+## 👩‍💻 Author
+
+**Mithra T**  
+B.E. Computer Science Engineering  
+Madras Institute of Technology, Anna University
+
+- GitHub: [@mithra0311](https://github.com/mithra0311)
+
+
 
 *Developed as a Software Engineering project.*
 
