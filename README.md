@@ -67,7 +67,7 @@ Administrators can update medicine, pharmacy, and inventory records through the 
 ## 📄 Project Documentation
 
 - 📘 **Software Requirements Specification (SRS):** [View SRS](docs/MediFind_SRS.pdf)
-- 📊 **UML Diagrams:** [View UML Diagrams](docs/Medifind_UML_Diagrams.pdf)
+- 📊 **UML Diagrams:** [View UML Diagrams](docs/Medifind_UML_Diagrams%20.pdf)
 The UML document contains the Use Case, Class, Sequence, and Activity diagrams for the MediFind system.
 
 ## 🚀 Future Enhancements
